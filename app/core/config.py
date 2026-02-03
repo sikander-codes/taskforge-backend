@@ -20,5 +20,29 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: List[str] = ["*"]
 
+    # Security / JWT
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_SECRET_KEY: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    ADMIN_API_SECRET_KEY: str
+
+    # Database
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_HOST: str 
+    POSTGRES_PORT: int
+    POSTGRES_DB: str
+
+    @property 
+    def DATABASE_URL(self) -> str:
+        return (
+            f"postgresql+asyncpg://"
+            f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        )
+
+    class Config:
+        env_file = ".env"
+
 
 settings = Settings()
