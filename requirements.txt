@@ -1,11 +1,16 @@
 fastapi
 uvicorn[standard]
-sqlalchemy
+
+sqlalchemy>=2.0
+asyncpg
 alembic
-psycopg2-binary
-python-jose
-passlib[bcrypt]
+uuid-utils
+
+pwdlib[argon2]
+pyjwt[crypto]
 python-multipart
+
+pydantic[email]
 pydantic-settings
 
 # Dev tooling

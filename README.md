@@ -30,14 +30,14 @@ Clone the project repository:
 
 ```bash
 git clone https://github.com/sikander-codes/taskforge-backend.git
-cd task-forge
+cd taskforge-backend
 ```
 
 Create and activate a virtual environment:
 
 ```bash
-python3 -m venv env
-source env/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 ```
 
 On Windows:
