@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from uuid import UUID
 
@@ -11,21 +12,21 @@ from app.schemas.user import UserCreate, UserUpdate
 
 async def get_user_by_id(db: AsyncSession, user_id: UUID) -> Optional[User]:
     result = await db.execute(
-        select(User).where(User.id == user_id)
+        select(User).where(User.id == user_id, User.deleted_at.is_(None))
     )
     return result.scalar_one_or_none()
 
 
 async def get_user_by_email(db: AsyncSession, email: str) -> Optional[User]:
     result = await db.execute(
-        select(User).where(User.email == email)
+        select(User).where(User.email == email, User.deleted_at.is_(None))
     )
     return result.scalar_one_or_none()
 
 
 async def get_user_by_username(db: AsyncSession, username: str) -> Optional[User]:
     result = await db.execute(
-        select(User).where(User.username == username)
+        select(User).where(User.username == username, User.deleted_at.is_(None))
     )
     return result.scalar_one_or_none()
 
@@ -60,4 +61,5 @@ async def update_user(db: AsyncSession, user: User, user_update: UserUpdate) -> 
 
 async def delete_user(db: AsyncSession, user: User) -> None:
     user.is_active = False
+    user.deleted_at = datetime.now()
     await db.commit()

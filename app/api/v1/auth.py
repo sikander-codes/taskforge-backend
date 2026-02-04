@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.config import settings
+from app.api.dependencies.authorization import SystemAdmin
 from app.core.database import get_db
 from app.core.security import create_access_token, verify_password
 from app.schemas.user import LoginRequest, LoginResponse, UserCreate, UserResponse
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 DbSession = Annotated[AsyncSession, Depends(get_db)]
 
 
-@router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)  # noqa: E501
+@router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def signup(
     user_in: UserCreate,
     db: DbSession,
@@ -79,15 +79,9 @@ async def login(
 @router.post("/admin/verify-user", status_code=status.HTTP_200_OK)
 async def admin_verify_user(
     email: str,
-    admin_secret: str,
     db: DbSession,
+    _admin: SystemAdmin,
 ):
-    if admin_secret != settings.ADMIN_API_SECRET_KEY:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Invalid admin secret",
-        )
-    
     user = await user_service.get_user_by_email(db, email)
     if not user:
         raise HTTPException(

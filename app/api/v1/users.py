@@ -1,16 +1,24 @@
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies.auth import CurrentUser
+from app.api.dependencies.authorization import SystemAdmin
 from app.core.database import get_db
+from app.models.role import SystemRole
 from app.schemas.user import UserResponse, UserUpdate
 from app.services import user as user_service
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 DbSession = Annotated[AsyncSession, Depends(get_db)]
+
+
+class SystemRoleUpdate(BaseModel):
+    system_role: SystemRole
 
 
 @router.get("/me", response_model=UserResponse)
@@ -51,3 +59,23 @@ async def delete_current_user_account(
     db: DbSession,
 ):
     await user_service.delete_user(db, current_user)
+
+
+@router.patch("/admin/{user_id}/role", response_model=UserResponse)
+async def update_user_system_role(
+    user_id: UUID,
+    role_data: SystemRoleUpdate,
+    _admin: SystemAdmin,
+    db: DbSession,
+):
+    user = await user_service.get_user_by_id(db, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+    
+    user.system_role = role_data.system_role
+    await db.commit()
+    await db.refresh(user)
+    return user
