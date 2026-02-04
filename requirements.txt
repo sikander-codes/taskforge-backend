@@ -16,3 +16,6 @@ pydantic-settings
 # Dev tooling
 ruff
 black
+pytest
+pytest-asyncio
+httpx

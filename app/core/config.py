@@ -1,9 +1,11 @@
 from typing import List
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env")
+    
     # App
     APP_NAME: str = "TaskForge API"
     APP_DESCRIPTION: str = (
@@ -39,9 +41,6 @@ class Settings(BaseSettings):
             f"{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
             f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
-
-    class Config:
-        env_file = ".env"
 
 
 settings = Settings()
