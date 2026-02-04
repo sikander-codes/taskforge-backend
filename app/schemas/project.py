@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.role import ProjectRole
+from app.enums import ProjectRole
 
 
 class ProjectCreate(BaseModel):

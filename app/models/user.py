@@ -5,8 +5,8 @@ from sqlalchemy import Boolean, DateTime, Enum, String
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
+from app.enums import SystemRole
 from app.models.base import Base
-from app.models.role import SystemRole
 from app.utils.uuid import uuid7
 
 

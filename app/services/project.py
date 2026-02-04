@@ -6,8 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.enums import ProjectRole
 from app.models.project import Project, ProjectMember
-from app.models.role import ProjectRole
 from app.schemas.project import ProjectCreate, ProjectUpdate
 
 

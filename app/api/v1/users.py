@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.dependencies.auth import CurrentUser
 from app.api.dependencies.authorization import SystemAdmin
 from app.core.database import get_db
-from app.models.role import SystemRole
+from app.enums import SystemRole
 from app.schemas.user import UserResponse, UserUpdate
 from app.services import user as user_service
 

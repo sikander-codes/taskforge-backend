@@ -5,8 +5,8 @@ from sqlalchemy import DateTime, Enum, ForeignKey, String, Text, UniqueConstrain
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
+from app.enums import ProjectRole
 from app.models.base import Base
-from app.models.role import ProjectRole
 from app.utils.uuid import uuid7
 
 

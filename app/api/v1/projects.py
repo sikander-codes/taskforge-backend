@@ -11,7 +11,7 @@ from app.api.dependencies.authorization import (
     RequireProjectViewer,
 )
 from app.core.database import get_db
-from app.models.role import ProjectRole
+from app.enums import ProjectRole
 from app.schemas.project import (
     MemberAddRequest,
     MemberResponse,

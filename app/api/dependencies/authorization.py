@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies.auth import CurrentUser
 from app.core.database import get_db
-from app.models.role import ProjectRole, SystemRole
+from app.enums import ProjectRole, SystemRole
 from app.services import project as project_service
 
 

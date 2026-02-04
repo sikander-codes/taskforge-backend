@@ -1,4 +1,4 @@
-from app.models.role import ProjectRole, SystemRole
+from app.enums import ProjectRole, SystemRole
 
 
 def can_manage_users(system_role: SystemRole) -> bool:
