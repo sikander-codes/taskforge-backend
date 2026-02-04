@@ -1,10 +1,11 @@
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import Boolean, DateTime, String
+from sqlalchemy import Boolean, DateTime, Enum, String
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
+from app.enums import SystemRole
 from app.models.base import Base
 from app.utils.uuid import uuid7
 
@@ -22,6 +23,11 @@ class User(Base):
     hashed_password: Mapped[str | None] = mapped_column(
         String(255), nullable=True
     )
+    system_role: Mapped[SystemRole] = mapped_column(
+        Enum(SystemRole, values_callable=lambda obj: [e.value for e in obj]),
+        default=SystemRole.USER,
+        nullable=False,
+    )
     is_active: Mapped[bool] = mapped_column(
         Boolean, default=True, nullable=False
     )
@@ -36,4 +42,7 @@ class User(Base):
         server_default=func.now(),
         onupdate=func.now(),
         nullable=False,
+    )
+    deleted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
     )

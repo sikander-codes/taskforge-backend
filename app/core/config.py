@@ -24,7 +24,6 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_SECRET_KEY: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
-    ADMIN_API_SECRET_KEY: str
 
     # Database
     POSTGRES_USER: str

@@ -4,6 +4,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
+from app.enums import SystemRole
+
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -39,10 +41,12 @@ class UserUpdate(BaseModel):
 class UserResponse(UserBase):
     id: UUID
     username: str | None
+    system_role: SystemRole
     is_active: bool
     is_verified: bool
     created_at: datetime
     updated_at: datetime
+    deleted_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
